@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Pro.BusinessLogic.DTOS;
 using Pro.BusinessLogic.Services.Classes;
 using Pro.BusinessLogic.Services.InterFaces;
+using Project.Presentation.ViewModels;
 
 namespace Project.Presentation.Controllers
 {
@@ -55,7 +56,7 @@ namespace Project.Presentation.Controllers
                     {
                         //user error
                         _logger.LogError(ex, "An error occurred while creating a department.");
-                        return View("Error");
+                        return View("Error",ex);
                     }
                 }
             }
@@ -74,5 +75,69 @@ namespace Project.Presentation.Controllers
             return View(department);
         }
         #endregion
+        #region Edit
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue) return BadRequest();//400
+            var department = _departmentServices.GetDepartmentById(id.Value);
+            if (department == null) return NotFound();//404
+                                                      //  return View(department);
+            var departmentVM = new DepartmentEditViewModel()
+            {
+              
+                Code = department.Code,
+                Name = department.Name,
+                Description = department.Description,
+                CreatedOn = department.CreatedOn.HasValue? department.CreatedOn.Value: default//1/01/0001
+            };
+            return View(departmentVM);
+        }
+        [HttpPost]
+        public IActionResult Edit([FromRoute]int? id, DepartmentEditViewModel departmentVM)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var departmentDto = new UpdatedDepartmentDto()
+                    {
+                        Id = id.Value,
+                        Code = departmentVM.Code,
+                        Name = departmentVM.Name,
+                        Description = departmentVM.Description,
+                        DateOfCreation = departmentVM.CreatedOn
+                    };
+                    var result = _departmentServices.UpdateDepartment(departmentDto);
+                    if (result > 0)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Deprtment can not be updated !!");//Error Message
+                        return View(departmentVM);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    if (_env.IsDevelopment())
+                    {
+                        _logger.LogError($"department can not be created bacua :{ex.Message}");
+                    }
+                    else
+                    {
+                        //user error
+                        _logger.LogError($"department can not be created bacua ::{ex}");
+                        return View("ErrorView",ex);
+                    }
+                }
+            }
+            return View(departmentVM);
+
+        }
+        #endregion
+
+
     }
 }
