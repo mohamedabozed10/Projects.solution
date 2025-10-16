@@ -1,6 +1,6 @@
-﻿
+﻿using Proj.DataAccess.Data.Repositories.Models.Shared;
 
-namespace Proj.DataAccess.Modules
+namespace Proj.DataAccess.Data.Repositories.Models.DepartmentModule
 {
     public class Department : BaseEntity
     {

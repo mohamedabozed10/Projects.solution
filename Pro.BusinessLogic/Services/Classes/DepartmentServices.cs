@@ -6,6 +6,10 @@ using Proj.DataAccess.Data.Repositories.Interfaces;
 
 namespace Pro.BusinessLogic.Services.Classes
 {
+    //الخلاصه 
+    //service get data from repository
+    //factory convert data from entity to dto and do any business logic
+    //service return dto to controller 
     public class DepartmentServices(IDepartmentRepository _departmentRepository) : IDepartmentServices
     {
 

@@ -1,11 +1,12 @@
 ﻿using Pro.BusinessLogic.DTOS;
-using Proj.DataAccess.Modules;
-
+using Proj.DataAccess.Data.Repositories.Models.DepartmentModule;
 
 namespace Pro.BusinessLogic.Factories
 {
     public static class DepartmentFactory
+   
     {
+        //to convert department to departmentDto for view 
         //mapping 
         public static DepartmentDto ToDepartmentDto(this Department d)
         {
@@ -33,6 +34,7 @@ namespace Pro.BusinessLogic.Factories
                 IsDeleted = department.IsDeleted
             };
         }
+        // departmentDto to department for create and update
         public static Department ToEntity(this CreateDepartmentDto dto)
         {
             return new Department()

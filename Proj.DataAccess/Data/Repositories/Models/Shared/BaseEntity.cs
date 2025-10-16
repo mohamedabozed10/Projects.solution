@@ -1,5 +1,4 @@
-﻿
-namespace Proj.DataAccess.Modules
+﻿namespace Proj.DataAccess.Data.Repositories.Models.Shared
 {
     public  class BaseEntity //include the common props (parent)
     {

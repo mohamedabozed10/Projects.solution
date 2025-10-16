@@ -7,6 +7,7 @@ namespace Project.Presentation.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    //ctor take logger object from DI container to log errors if happend
 
     public HomeController(ILogger<HomeController> logger)
     {
@@ -24,7 +25,7 @@ public class HomeController : Controller
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error() //return error view with error details
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }

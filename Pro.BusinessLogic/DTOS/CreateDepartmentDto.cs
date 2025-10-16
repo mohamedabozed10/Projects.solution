@@ -1,5 +1,4 @@
-﻿using Pro.BusinessLogic.DTOS;
-using Proj.DataAccess.Modules;
+﻿
 using System.ComponentModel.DataAnnotations;
 
 namespace Pro.BusinessLogic.DTOS

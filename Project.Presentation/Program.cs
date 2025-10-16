@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Pro.BusinessLogic.Services.Classes;
 using Pro.BusinessLogic.Services.InterFaces;
@@ -12,23 +12,26 @@ namespace Project.Presentation
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(args);//create the app builder to prapair settings and services and DI & server building
 
             #region DI Container
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews();//to use MVC
+            //Add DbContext to the DI Container 
             builder.Services.AddDbContext<AppDbContext>(Options =>
             {
+                //read connection string from appsettings.json
                 Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            //Dependency Injection for Repositories and Services
-            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            //Dependency Injection for Repositories and Service 
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();//يعنى لما حد يطلب الانترفيس اديله نسخه من الكلاس 
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
             #endregion
 
-            var app = builder.Build();
+            var app = builder.Build();//build the app after configuring it
 
             // Configure the HTTP request pipeline.
+            //if app not in development mode show detailed error page
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
@@ -36,18 +39,19 @@ namespace Project.Presentation
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            #region pipes that requests move in 
+            app.UseHttpsRedirection();//when http request comes it will be redirected to https
+            app.UseStaticFiles(); //to use static files like css,js,images
+            app.UseRouting();     //to route the request to the correct controller and action method
+            app.UseAuthorization();//to authorize the user
+            #endregion
 
-            app.UseRouting();
-
-            app.UseAuthorization();
-
+            //بيحدد المسار اللي هيتم من خلاله الوصول للكنترولر والاكنشن
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            app.Run();
+            app.Run();//server strats to listen for requests
         }
     }
 }
