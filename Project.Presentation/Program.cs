@@ -17,15 +17,21 @@ namespace Project.Presentation
             #region DI Container
             // Add services to the container.
             builder.Services.AddControllersWithViews();//to use MVC
-            //Add DbContext to the DI Container 
-            builder.Services.AddDbContext<AppDbContext>(Options =>
+                                                       //Add DbContext to the DI Container 
+            builder.Services.AddDbContext<AppDbContext>(options =>
             {
-                //read connection string from appsettings.json
-                Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    sqlOptions => sqlOptions.MigrationsAssembly("Proj.DataAccess") // ✅ أضف ده
+                );
             });
+
             //Dependency Injection for Repositories and Service 
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();//يعنى لما حد يطلب الانترفيس اديله نسخه من الكلاس 
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeServices>();
+            builder.Services.AddAutoMapper(auto=> { },typeof(EmployeeServices).Assembly);//to use automapper in the project
             #endregion
 
             var app = builder.Build();//build the app after configuring it

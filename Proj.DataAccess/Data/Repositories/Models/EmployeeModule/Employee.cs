@@ -16,6 +16,8 @@ namespace Proj.DataAccess.Data.Repositories.Models.EmployeeModule
         //EmployeeType==>(FullTime,PartTime)
         public EmployeeType EmployeeType { get; set; } //enum
         public Gender Gender { get; set; }
-
+        public string Address { get; set; }
+        public DateTime? ModifiedOn { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

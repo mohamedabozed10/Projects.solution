@@ -1,6 +1,4 @@
-﻿
-
-namespace Pro.BusinessLogic.DTOS
+﻿namespace Pro.BusinessLogic.DTOS.DepartmentDtos
 {
     public class DepartmentDto
     {

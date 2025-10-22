@@ -1,4 +1,5 @@
-﻿@model CreateDepartmentDto
+﻿@using Pro.BusinessLogic.DTOS.DepartmentDtos
+@model CreateEmployeetDto
 @{
     ViewData["Title"] = "Create";
 }
@@ -34,4 +35,9 @@
         </div>
     </form>
 </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 

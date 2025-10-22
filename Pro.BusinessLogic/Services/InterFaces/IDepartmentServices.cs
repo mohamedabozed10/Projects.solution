@@ -1,10 +1,10 @@
-﻿using Pro.BusinessLogic.DTOS;
+﻿using Pro.BusinessLogic.DTOS.DepartmentDtos;
 
 namespace Pro.BusinessLogic.Services.InterFaces
 {
     public interface IDepartmentServices
     {
-        int AddDepartment(CreateDepartmentDto departmentDto);
+        int AddDepartment(CreateEmployeetDto departmentDto);
         bool DeleteDepartment(int id);
         IEnumerable<DepartmentDto> GetAllDepartments();
         DepartmentDetailsDto? GetDepartmentById(int id);

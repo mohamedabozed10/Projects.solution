@@ -1,4 +1,4 @@
-﻿using Pro.BusinessLogic.DTOS;
+﻿using Pro.BusinessLogic.DTOS.DepartmentDtos;
 using Pro.BusinessLogic.Factories;
 using Pro.BusinessLogic.Services.InterFaces;
 using Proj.DataAccess.Data.Repositories.Classes;
@@ -29,7 +29,7 @@ namespace Pro.BusinessLogic.Services.Classes
             return department is null ? null : department.ToDepartmentDetailsDto();//on one line 
         }
         //[Add]
-        public int AddDepartment(CreateDepartmentDto departmentDto)
+        public int AddDepartment(CreateEmployeetDto departmentDto)
         {
             return _departmentRepository.Add(departmentDto.ToEntity());
         }

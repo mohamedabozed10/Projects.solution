@@ -1,4 +1,4 @@
-﻿using Pro.BusinessLogic.DTOS;
+﻿using Pro.BusinessLogic.DTOS.DepartmentDtos;
 using Proj.DataAccess.Data.Repositories.Models.DepartmentModule;
 
 namespace Pro.BusinessLogic.Factories
@@ -35,7 +35,7 @@ namespace Pro.BusinessLogic.Factories
             };
         }
         // departmentDto to department for create and update
-        public static Department ToEntity(this CreateDepartmentDto dto)
+        public static Department ToEntity(this CreateEmployeetDto dto)
         {
             return new Department()
             {

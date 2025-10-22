@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
-using Pro.BusinessLogic.DTOS;
+using Pro.BusinessLogic.DTOS.DepartmentDtos;
 using Pro.BusinessLogic.Services.Classes;
 using Pro.BusinessLogic.Services.InterFaces;
 using Project.Presentation.ViewModels;
@@ -22,6 +22,7 @@ namespace Project.Presentation.Controllers
             return View(department);
         }
         #endregion
+
         #region Create
         //Return View
      
@@ -31,7 +32,7 @@ namespace Project.Presentation.Controllers
         }
         [HttpPost]
         
-        public IActionResult Create(CreateDepartmentDto departmentDto)
+        public IActionResult Create(CreateEmployeetDto departmentDto)
         {
             //call service to add department
             //if result >0 return to index else show error message
@@ -73,6 +74,7 @@ namespace Project.Presentation.Controllers
            
         }
         #endregion
+
         #region Details
         //take id from route & return department to view to show details
         [HttpGet]
@@ -84,6 +86,7 @@ namespace Project.Presentation.Controllers
             return View(department);
         }
         #endregion
+
         #region Edit
         //take id from route & return department to view to edit it & send edits to service
         //get department by id and map it to view model to show it in view_edit form
@@ -150,6 +153,7 @@ namespace Project.Presentation.Controllers
 
         }
         #endregion
+
         #region Delete
         //Get ==> Render the view that contain the details
         //public IActionResult Delete(int? id)
