@@ -15,6 +15,10 @@ namespace Proj.DataAccess.Data.Configurations
             builder.Property(d => d.Code).HasColumnType("varchar(20)");
             builder.Property(d => d.CreatedOn).HasDefaultValueSql("GETDATE()");
             builder.Property(d => d.ModefiedOn).HasComputedColumnSql("GETDATE()");
+            builder.HasMany(d => d.employees)
+                   .WithOne(e => e.departments)
+                   .HasForeignKey(e => e.departmentId)
+                   .OnDelete(DeleteBehavior.SetNull);
         }
 
     }

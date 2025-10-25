@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Options;
 using Pro.BusinessLogic.DTOS.EmployeeDtos;
 using Proj.DataAccess.Data.Repositories.Models.EmployeeModule;
 using System;
@@ -15,7 +16,9 @@ namespace Pro.BusinessLogic.Mapping
         {
             CreateMap<Employee, EmployeeDto>()
                 .ForMember(dest=>dest.Gender,options=>options.MapFrom(src=>src.Gender))
-               .ForMember(dest => dest.EmployeeType, options => options.MapFrom(src => src.EmployeeType));
+               .ForMember(dest => dest.EmployeeType, options => options.MapFrom(src => src.EmployeeType))
+               .ForMember(dest=>dest.Department,options=>options.MapFrom(src=>src.departments!=null ? src.departments.Name : null));
+
 
             CreateMap<Employee, EmployeeDetailsDto>()
                 .ForMember(dest => dest.Gender, options => options.MapFrom(src => src.Gender))

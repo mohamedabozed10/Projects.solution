@@ -1,4 +1,5 @@
-﻿using Proj.DataAccess.Data.Repositories.Models.Shared;
+﻿using Proj.DataAccess.Data.Repositories.Models.DepartmentModule;
+using Proj.DataAccess.Data.Repositories.Models.Shared;
 
 namespace Proj.DataAccess.Data.Repositories.Models.EmployeeModule
 {
@@ -19,5 +20,8 @@ namespace Proj.DataAccess.Data.Repositories.Models.EmployeeModule
         public string Address { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public Department? departments { get; set; }
+        //FK
+        public int? departmentId { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace Project.Presentation.ViewModels
 {
-    public class DepartmentEditViewModel
+    public class DepartmentViewModel
     {
-    
+        public int DeptId { get; set; }  
         public string Code { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }

@@ -22,8 +22,9 @@ namespace Project.Presentation
             {
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
-                    sqlOptions => sqlOptions.MigrationsAssembly("Proj.DataAccess") // ✅ أضف ده
+                    sqlOptions => sqlOptions.MigrationsAssembly("Proj.DataAccess") 
                 );
+                options.UseLazyLoadingProxies();//to enable lazy loading
             });
 
             //Dependency Injection for Repositories and Service 

@@ -5,6 +5,8 @@ using Proj.DataAccess.Data.Repositories.Interfaces;
 using Proj.DataAccess.Data.Repositories.Models.EmployeeModule;
 using Proj.DataAccess.Data.Repositories.Models.Shared;
 using Pro.BusinessLogic.Services.Classes;
+using Project.Presentation.ViewModels;
+using Pro.BusinessLogic.Services.InterFaces;
 
 namespace Project.Presentation.Controllers
 {
@@ -40,13 +42,23 @@ namespace Project.Presentation.Controllers
 
         #region Create
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create()//([FromServices]IDepartmentServices _departmentServices)//Action Injection 
         {
+            //var departments = _departmentServices.GetAllDepartments()
+            //  .Select(d => new DepartmentViewModel
+            //   {
+            //       DeptId = d.DeptId,
+            //       Code = d.Code,
+            //       Name = d.Name,
+            //       Description = d.Description,
+            //       CreatedOn = d.DateOfCreation
+            //   }).ToList();
+            //ViewData["Departments"] = departments;
             return View();
         }
         [HttpPost]
 
-        public IActionResult Create(CreateEmployeeDto employeeDto)
+        public IActionResult Create(EmployeeViewModel employeeViewModel)
         {
             //call service to add employee
             //if result >0 return to index else show error message
@@ -54,7 +66,20 @@ namespace Project.Presentation.Controllers
             {
                 try
                 {
-                    var result = _employeeService.CreateEmployee(employeeDto);
+                    var result = _employeeService.CreateEmployee(new CreateEmployeeDto()
+                    {
+                        Name = employeeViewModel.Name,
+                        Age = employeeViewModel.Age,
+                        Address = employeeViewModel.Address,
+                        IsActive = employeeViewModel.IsActive,
+                        HiringDate = employeeViewModel.HiringDate,
+                        Salary = employeeViewModel.Salary,
+                        Email = employeeViewModel.Email,
+                        EmployeeType = employeeViewModel.EmployeeType,
+                        Gender = employeeViewModel.Gender,
+                        PhoneNumber = employeeViewModel.PhoneNumber,
+                        DepartmentId = employeeViewModel.DepartmentId
+                    });
 
                     if (result > 0)
                     {
@@ -83,7 +108,8 @@ namespace Project.Presentation.Controllers
                     }
                 }
             }
-            return View(employeeDto);
+           // ViewData["Departments"] = _departmentServices.GetAllDepartments();
+            return View(employeeViewModel);
         }
         #endregion
 
@@ -105,7 +131,7 @@ namespace Project.Presentation.Controllers
             var employee = _employeeService.GetEmployeeById(id.Value);
             if (employee is null) return NotFound();
             //lets map EmployeeDetailsDto to UpdatedEmployeeDto
-            var employeeDto = new UpdatedEmployeeDto()
+            var employeeViewModel = new EmployeeViewModel()
             {
                 Id = employee.Id,
                 Name = employee.Name,
@@ -119,23 +145,38 @@ namespace Project.Presentation.Controllers
                 Gender=Enum.Parse<Gender>(employee.Gender),
                 EmployeeType = Enum.Parse<EmployeeType>(employee.EmployeeType),
             };
-            return View(employeeDto);
+            return View(employeeViewModel);
         }
         [HttpPost]
-        public IActionResult Edit([FromRoute] int? id, UpdatedEmployeeDto employeeDto) 
+        public IActionResult Edit([FromRoute] int? id, EmployeeViewModel employeeViewModel) 
         {
-            if (!id.HasValue ||id!=employeeDto.Id) return BadRequest();
-            if (!ModelState.IsValid) return View(employeeDto);
+            if (!id.HasValue ||id!= employeeViewModel.Id) return BadRequest();
+            if (!ModelState.IsValid) return View(employeeViewModel);
             try
             {
-                var result = _employeeService.UpdateEmployee(employeeDto);
+                var result = _employeeService.UpdateEmployee(new UpdatedEmployeeDto()
+                {
+                    Address = employeeViewModel.Address,
+                    Age = employeeViewModel.Age,
+                    Name = employeeViewModel.Name,
+                    HiringDate = employeeViewModel.HiringDate,
+                    Gender = employeeViewModel.Gender,
+                    Email = employeeViewModel.Email,
+                    PhoneNumber= employeeViewModel.PhoneNumber,
+                    EmployeeType = employeeViewModel.EmployeeType,
+                    IsActive = employeeViewModel.IsActive,
+                    Salary = employeeViewModel.Salary,
+                    DepartmentId = employeeViewModel.DepartmentId,
+                    Id=id.Value
+
+                });
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
 
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Employee can not be updated !!");//Global Error Message
-                    return View(employeeDto);
+                    return View(employeeViewModel);
                 }
             }
             catch (Exception ex)
@@ -152,7 +193,7 @@ namespace Project.Presentation.Controllers
                     return View("Error", ex);
                 }
             }
-            return View(employeeDto);
+            return View(employeeViewModel);
 
         }
 

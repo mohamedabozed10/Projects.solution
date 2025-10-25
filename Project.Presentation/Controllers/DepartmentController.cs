@@ -97,7 +97,7 @@ namespace Project.Presentation.Controllers
             var department = _departmentServices.GetDepartmentById(id.Value);
             if (department == null) return NotFound();//404
                                                       //  return View(department);
-            var departmentVM = new DepartmentEditViewModel()
+            var departmentVM = new DepartmentViewModel()
             {
               
                 Code = department.Code,
@@ -109,7 +109,7 @@ namespace Project.Presentation.Controllers
         }
         [HttpPost]
         //
-        public IActionResult Edit([FromRoute]int? id, DepartmentEditViewModel departmentVM)
+        public IActionResult Edit([FromRoute]int? id, DepartmentViewModel departmentVM)
         {
             if (ModelState.IsValid)
             {
